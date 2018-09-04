@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tile Game</string>
+    <string name="movesLabelText">Moves</string>
+    <string name="winningLabelText">You Won!</string>
+</resources>
