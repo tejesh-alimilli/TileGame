@@ -9,20 +9,20 @@
 import Foundation
 
 class TileBoard {
-    let rowsCount: Int
-    let columnsCount: Int
+    private let rowsCount: Int
+    private let columnsCount: Int
     
-    var tiles: [Tile]
-    let emptyTile: Tile
+    private var tiles = [Tile]()
+    private let emptyTile: Tile
     
     var movesCount = 0
     
     init(rows: Int, cols: Int) {
         rowsCount = rows
         columnsCount = cols
-        tiles = [Tile]()
+        
         let emptyTilePosition = TilePosition(row: rows - 1, column: cols - 1)
-        emptyTile = Tile(position: emptyTilePosition, content: nil)
+        emptyTile = Tile(initPosition: emptyTilePosition, content: nil)
         
         for row in 0..<rows {
             for col in 0..<cols {
@@ -32,8 +32,8 @@ class TileBoard {
                     continue
                 }
                 
-                let content: Int? = row + (col * rowsCount) + 1
-                let tile = Tile(position: position, content: content)
+                let content: Int? = col + (row * columnsCount) + 1
+                let tile = Tile(initPosition: position, content: content)
                 tiles.append(tile)
             }
         }
@@ -65,8 +65,8 @@ class TileBoard {
     
     func moveTile(at position: TilePosition) -> [TileMovement] {
         var movements = [TileMovement]()
-        
         let direction: Int
+        
         if emptyTile.currentPosition.row == position.row {
             let columnRange: CountableClosedRange<Int>
             if position.column > emptyTile.currentPosition.column {
@@ -128,13 +128,18 @@ class TileBoard {
         return movements
     }
     
-    @discardableResult func makeRandomMove() -> [TileMovement] {
+    @discardableResult private func makeRandomMove() -> [TileMovement] {
         if tiles.isEmpty {
             return []
         }
         
         let maxTries = tiles.count * 10
         for _ in 0..<maxTries {
+//            if let randomTile = tiles.randomElement() {
+//                if canMoveTile(at: randomTile.currentPosition) == false {
+//                    continue
+//                }
+//            }
             let randomIndex = Int(arc4random_uniform(UInt32(tiles.count)))
             let randomTile = tiles[randomIndex]
             if canMoveTile(at: randomTile.currentPosition) == false {

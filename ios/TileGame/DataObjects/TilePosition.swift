@@ -12,8 +12,18 @@ struct TilePosition: Equatable, CustomStringConvertible {
     var row = 0
     var column = 0
     
+    init(row: Int, column: Int) {
+        self.row = row
+        self.column = column
+    }
+    
+    init(indexPath: IndexPath) {
+        row = indexPath.section
+        column = indexPath.row
+    }
+    
     var indexPath: IndexPath {
-        return IndexPath(row: row, section: column)
+        return IndexPath(row: column, section: row)
     }
     
     var description: String {

@@ -79,23 +79,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     //MARK: collection view methods
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return BoardColsCount
+        return BoardRowsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return BoardRowsCount
+        return BoardColsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = tileBoardCollectionView.dequeueReusableCell(withReuseIdentifier: "TileView", for: indexPath) as! TileView
         
-        cell.tile = tileBoard.tileAt(row: indexPath.row, col: indexPath.section)
+        cell.tile = tileBoard.tile(at: TilePosition(indexPath: indexPath))
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return tileBoard.canMoveTile(at: TilePosition(row: indexPath.row, column: indexPath.section))
+        return tileBoard.canMoveTile(at: TilePosition(indexPath: indexPath))
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -103,7 +103,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         tileBoardCollectionView.allowsSelection = false
         
-        let movements = tileBoard.moveTile(at: TilePosition(row: indexPath.row, column: indexPath.section))
+        let movements = tileBoard.moveTile(at: TilePosition(row: indexPath.section, column: indexPath.row))
         if movements.isEmpty {
             return
         }

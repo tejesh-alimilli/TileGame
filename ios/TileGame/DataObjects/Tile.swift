@@ -10,7 +10,6 @@ import Foundation
 
 class Tile: CustomStringConvertible {
     let actualPosition: TilePosition
-    
     var currentPosition: TilePosition
     
     let content: Int?
@@ -29,10 +28,9 @@ class Tile: CustomStringConvertible {
         return "\(contentString) was at \(actualPosition), now at \(currentPosition)"
     }
     
-    init(position: TilePosition, content: Int?) {
-        actualPosition = position
-        
-        currentPosition = position
+    init(initPosition: TilePosition, content: Int?) {
+        actualPosition = initPosition
+        currentPosition = initPosition
         
         self.content = content
     }
